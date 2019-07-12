@@ -2,12 +2,12 @@
   <div class="login-container">
     <el-card class="login-box">
       <img src="../../assets/images/logo_index.png" alt />
-      <el-form :model="ruleForm" :rules="rules">
-        <el-form-item prop='mobile'>
-          <el-input v-model="ruleForm.mobile" placeholder="请输入手机号" ></el-input>
+      <el-form status-icon :model="ruleForm" :rules="rules" ref="vidate">
+        <el-form-item prop="mobile">
+          <el-input v-model="ruleForm.mobile" placeholder="请输入手机号"></el-input>
         </el-form-item>
-        <el-form-item  prop='code'>
-          <el-input v-model="ruleForm.code" placeholder="请输入验证码" style="width:350px" ></el-input>
+        <el-form-item prop="code">
+          <el-input v-model="ruleForm.code" placeholder="请输入验证码" style="width:350px"></el-input>
           <el-button style="float:right">点击验证</el-button>
         </el-form-item>
         <el-form-item>
@@ -16,7 +16,7 @@
           <el-link type="primary">隐私条款</el-link>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="width:450px">登录</el-button>
+          <el-button type="primary" style="width:450px" @click="login()">登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -33,12 +33,32 @@ export default {
       },
       rules: {
         mobile: [
-          { required: true, message: '请输入电话号码', trigger: 'blur' }
+          { required: true, message: '请输入电话号码', trigger: 'blur' },
+          { len: 11, message: '请输入正确手机号码', trigger: 'blur' }
         ],
         code: [
-          { required: true, message: '请输入验证码', trigger: 'blur' }
+          { required: true, message: '请输入验证码', trigger: 'blur', len: 6 }
         ]
       }
+    }
+  },
+  methods: {
+    login () {
+      this.$refs.vidate.validate((valid) => {
+        if (valid) {
+          this.axios
+            .post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.ruleForm)
+            .then((res) => {
+              console.log(res)
+              this.$router.push('/')
+            })
+            .catch(() => {
+              this.$message('登录失败')
+
+              return false
+            })
+        }
+      })
     }
   }
 }
@@ -56,7 +76,7 @@ export default {
     background: #fff;
     position: absolute;
     width: 500px;
-    height:350px;
+    height: 350px;
     top: 0;
     left: 0;
     right: 0;

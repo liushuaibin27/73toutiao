@@ -10,16 +10,31 @@ import NotFound from '@/views/404'
 Vue.use(VueRouter)
 // 初始化router对象
 const router = new VueRouter({
-  routes: [
-    { path: '/login', name: 'login', component: Login },
-    { path: '*', name: 'notfound', component: NotFound },
-    { path: '/',
-      name: 'home',
-      component: Home,
-      children: [
-        { path: '/', name: 'welcome', component: Welcome }
-      ]
-    }
+  routes: [{
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
+  {
+    path: '*',
+    name: 'notfound',
+    component: NotFound
+  },
+  {
+    path: '/',
+    name: 'home',
+    component: Home,
+    children: [{
+      path: '/',
+      name: 'welcome',
+      component: Welcome
+    }]
+  }
   ]
+})
+router.beforeEach((to, from, next) => {
+  const weishi = window.sessionStorage.getItem('73toutiao')
+  if (to.path !== '/login' && !weishi) return next('/login')
+  next()
 })
 export default router

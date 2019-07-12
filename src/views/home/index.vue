@@ -3,7 +3,7 @@
     <el-aside class="my-aside" :width="isCollapse?'64px':'200px'">
       <div :class="isCollapse?'logo1':'logo'"></div>
 
-      <el-col :span="12">
+      <el-col :span="12" >
         <el-menu
           default-active="/"
           class="el-menu-vertical-demo"
@@ -12,6 +12,7 @@
           active-text-color="#ffd04b"
           style="width:100%"
           :collapse="isCollapse"
+          :collapse-transition="false"
           router
         >
           <el-menu-item index="/">

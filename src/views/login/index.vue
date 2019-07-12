@@ -44,18 +44,23 @@ export default {
   },
   methods: {
     login () {
-      this.$refs.vidate.validate((valid) => {
+      this.$refs.vidate.validate(valid => {
         if (valid) {
           this.axios
-            .post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.ruleForm)
-            .then((res) => {
+            .post(
+              'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
+              this.ruleForm
+            )
+            .then(res => {
               console.log(res)
               this.$router.push('/')
+              window.sessionStorage.setItem(
+                '73toutiao',
+                JSON.stringify(res.data.data)
+              )
             })
             .catch(() => {
-              this.$message('登录失败')
-
-              return false
+              this.$message.error('登录失败')
             })
         }
       })

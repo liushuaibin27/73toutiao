@@ -24,12 +24,13 @@
 </template>
 
 <script>
+
 export default {
   data () {
     return {
       ruleForm: {
-        mobile: '',
-        code: ''
+        mobile: '13946579826',
+        code: '246810'
       },
       rules: {
         mobile: [
@@ -43,25 +44,40 @@ export default {
     }
   },
   methods: {
+    // login () {
+    //   this.$refs.vidate.validate(valid => {
+    //     if (valid) {
+    //       this.axios
+    //         .post(
+    //           'authorizations',
+    //           this.ruleForm
+    //         )
+    //         .then(res => {
+    //           this.$router.push('/')
+    //           window.sessionStorage.setItem(
+    //             '73toutiao',
+    //             JSON.stringify(res.data.data)
+    //           )
+    //         })
+    //         .catch((err) => {
+    //           console.log(err)
+    //           this.$message.error('登录失败')
+    //         })
+    //     }
+    //   })
+    // }
     login () {
-      this.$refs.vidate.validate(valid => {
+      this.$refs.vidate.validate(async valid => {
         if (valid) {
-          this.axios
-            .post(
-              'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
-              this.ruleForm
-            )
-            .then(res => {
-              console.log(res)
-              this.$router.push('/')
-              window.sessionStorage.setItem(
-                '73toutiao',
-                JSON.stringify(res.data.data)
-              )
-            })
-            .catch(() => {
-              this.$message.error('登录失败')
-            })
+          try {
+            const res = await this.axios.post('authorizations', this.ruleForm)
+            window.sessionStorage.setItem('73toutiao', JSON.stringify(res.data.data))
+            this.$router.push('/')
+            console.log(res.data)
+          } catch (err) {
+            console.log(err)
+            this.$message.error('登录失败')
+          }
         }
       })
     }

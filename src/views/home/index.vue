@@ -3,9 +3,9 @@
     <el-aside class="my-aside" :width="isCollapse?'64px':'200px'">
       <div :class="isCollapse?'logo1':'logo'"></div>
 
-      <el-col :span="12" >
+      <el-col :span="12">
         <el-menu
-          default-active="/"
+          :default-active="$route.path"
           class="el-menu-vertical-demo"
           background-color="#002233"
           text-color="#fff"
@@ -19,15 +19,15 @@
             <i class="el-icon-s-home"></i>
             <span slot="title">首页</span>
           </el-menu-item>
-          <el-menu-item index="/2">
+          <el-menu-item index="/article">
             <i class="el-icon-document"></i>
             <span slot="title">内容管理</span>
           </el-menu-item>
-          <el-menu-item index="3">
+          <el-menu-item index="/image">
             <i class="el-icon-picture"></i>
             <span slot="title">素材管理</span>
           </el-menu-item>
-          <el-menu-item index="4">
+          <el-menu-item index="publish">
             <i class="el-icon-s-promotion"></i>
             <span slot="title">发布文章</span>
           </el-menu-item>
@@ -52,19 +52,13 @@
         <span>江苏传智播客教育有限公司</span>
         <el-dropdown style="float:right">
           <span class="el-dropdown-link">
-            <img
-              style="vertical-align:middle"
-              width="30"
-              height="30"
-              src="../../assets/images/avatar.jpg"
-              alt
-            />
-            <b style="vertical-align:middle;padding-left:5px">黑马小哥</b>
+            <img style="vertical-align:middle" width="30" height="30" :src="avatar" alt />
+            <b style="vertical-align:middle;padding-left:5px">{{name}}</b>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-setting" @click.native="setting">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" @click.native="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -79,12 +73,27 @@
 export default {
   data () {
     return {
-      isCollapse: false
+      isCollapse: false,
+      name: '',
+      avatar: ''
     }
   },
+  created () {
+    const user = JSON.parse(window.sessionStorage.getItem('73toutiao'))
+    this.name = user.name
+    this.avatar = user.photo
+  },
+
   methods: {
     toggleMenu () {
       this.isCollapse = !this.isCollapse
+    },
+    setting () {
+      this.$router.push('/setting')
+    },
+    logout () {
+      window.sessionStorage.removeItem('73toutiao')
+      this.$router.push('/login')
     }
   }
 }
@@ -107,11 +116,11 @@ export default {
       background: #002840 url(../../assets/images/logo_admin.png) no-repeat
         center / 140px auto;
     }
-     .logo1 {
+    .logo1 {
       width: 100%;
       height: 60px;
       background: #002840 url(../../assets/images/logo_admin_01.png) no-repeat
-      center;
+        center;
     }
   }
   .home-head {

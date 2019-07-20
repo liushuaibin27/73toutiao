@@ -44,28 +44,6 @@ export default {
     }
   },
   methods: {
-    // login () {
-    //   this.$refs.vidate.validate(valid => {
-    //     if (valid) {
-    //       this.axios
-    //         .post(
-    //           'authorizations',
-    //           this.ruleForm
-    //         )
-    //         .then(res => {
-    //           this.$router.push('/')
-    //           window.sessionStorage.setItem(
-    //             '73toutiao',
-    //             JSON.stringify(res.data.data)
-    //           )
-    //         })
-    //         .catch((err) => {
-    //           console.log(err)
-    //           this.$message.error('登录失败')
-    //         })
-    //     }
-    //   })
-    // }
     login () {
       this.$refs.vidate.validate(async valid => {
         if (valid) {

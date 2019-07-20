@@ -19,12 +19,12 @@
 
         <el-dialog title="添加素材" :visible.sync="dialogFormVisible" width="300px">
           <el-upload
-            class="avatar-uploader"
+             class="avatar-uploader"
             action="http://ttapi.research.itcast.cn/mp/v1_0/user/images"
-            :show-file-list="false"
             :headers="headers"
-            :on-success="handleSuccess"
             name="image"
+            :show-file-list="false"
+            :on-success="handleSuccess"
           >
             <img v-if="imageUrl" :src="imageUrl" class="avatar" />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
